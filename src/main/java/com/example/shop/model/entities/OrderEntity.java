@@ -1,7 +1,6 @@
 package com.example.shop.model.entities;
 
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;

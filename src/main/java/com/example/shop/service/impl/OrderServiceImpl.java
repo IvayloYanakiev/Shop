@@ -30,10 +30,7 @@ public class OrderServiceImpl implements OrderService {
         //TODO: create mapper
         OrderEntity order = new OrderEntity();
         LinkedList<ProductLineEntity> orderProductLines = new LinkedList<>();
-        orderRequestDto.getProductLines().forEach(dto -> {
-            //TODO: Add mapstruct
-            constructProductLineEntity(orderProductLines, dto);
-        });
+        orderRequestDto.getProductLines().forEach(dto -> constructProductLineEntity(orderProductLines, dto));
         order.setProductLines(orderProductLines);
         OrderEntity orderEntity = orderRepository.save(order);
 
