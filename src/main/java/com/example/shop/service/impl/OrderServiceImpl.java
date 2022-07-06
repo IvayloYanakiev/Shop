@@ -1,6 +1,7 @@
 package com.example.shop.service.impl;
 
 import com.example.shop.model.dtos.OrderRequestDto;
+import com.example.shop.model.dtos.ProductLineDto;
 import com.example.shop.model.entities.OrderEntity;
 import com.example.shop.model.entities.ProductLineEntity;
 import com.example.shop.repository.OrderRepository;
@@ -30,10 +31,8 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity order = new OrderEntity();
         LinkedList<ProductLineEntity> orderProductLines = new LinkedList<>();
         orderRequestDto.getProductLines().forEach(dto -> {
-            ProductLineEntity entity = new ProductLineEntity();
-            entity.setProductId(dto.getProductId());
-            entity.setQuantity(dto.getQuantity());
-            orderProductLines.add(entity);
+            //TODO: Add mapstruct
+            constructProductLineEntity(orderProductLines, dto);
         });
         order.setProductLines(orderProductLines);
         OrderEntity orderEntity = orderRepository.save(order);
@@ -42,5 +41,12 @@ public class OrderServiceImpl implements OrderService {
         kafKaProducerServiceImpl.sendMessage(new Gson().toJson(orderEntity));
 
         return orderEntity;
+    }
+
+    private void constructProductLineEntity(LinkedList<ProductLineEntity> orderProductLines, ProductLineDto dto) {
+        ProductLineEntity entity = new ProductLineEntity();
+        entity.setProductId(dto.getProductId());
+        entity.setQuantity(dto.getQuantity());
+        orderProductLines.add(entity);
     }
 }
